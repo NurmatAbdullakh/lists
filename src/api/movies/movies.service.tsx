@@ -31,7 +31,7 @@ export const useMoviesGetAllInfiniteQuery = () => {
 
 export const useMoviesGetByIdQuery = (id: number) =>
   useQuery<IMovieDetailsResponse>({
-    queryKey: ["MOVIES_GETBYID"],
+    queryKey: ["MOVIES_GETBYID" + id],
     queryFn: () => moviesService.getMovieById(id),
     refetchOnWindowFocus: false,
     retry: 1,
