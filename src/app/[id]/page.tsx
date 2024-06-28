@@ -1,16 +1,20 @@
-"use client";
+import { IMovieDetailsResponse } from "@/api/movies/movies.types";
 import { FC } from "react";
 import MovieDetails from "../_components/MovieDetails/MovieDetails";
-import { useMoviesGetByIdQuery } from "@/api/movies/movies.service";
+import { fetchMovieDetails } from "../../../api/movies.service";
 
 interface Params {
   id: string;
 }
 
-const SingleMoviePage: FC<{ params: Params }> = ({ params }) => {
-  const { data } = useMoviesGetByIdQuery(+params.id);
+const SingleMoviePage: FC<{ params: Params }> = async ({ params }) => {
+  try {
+    const data: IMovieDetailsResponse = await fetchMovieDetails(params.id);
 
-  return <MovieDetails details={data?.data} />;
+    return <MovieDetails details={data.data} />;
+  } catch (error: any) {
+    return <div style={{ color: "white" }}>Error: {error.message}</div>;
+  }
 };
 
 export default SingleMoviePage;
